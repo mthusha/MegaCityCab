@@ -22,8 +22,10 @@ public class Customer {
     private String phone;
     private String email;
 
-    @JsonIgnore
-    @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL)
+
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
     private Users user;
 
     @OneToOne(mappedBy = "customer",cascade = CascadeType.ALL)
