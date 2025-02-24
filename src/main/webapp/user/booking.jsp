@@ -2,6 +2,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
+    <title>Mega City Cab</title>
     <style>
     .div-body {
                    height: fit-content;
@@ -86,7 +87,7 @@
 
       .header-title {
        color: white;
-       font-size: 26px;
+       font-size: 34px;
        font-weight: bold;
 }
 
@@ -99,21 +100,44 @@
     /* border-bottom-width: var(--bs-border-width); */
     /* box-shadow: inset 0 0 0 9999px var(--bs-table-bg-state, var(--bs-table-bg-type, var(--bs-table-accent-bg))); */
 }
-        @media (max-width: 768px) {
-            .container{
-                width: 100% !important;
+.modal.show .modal-dialog {
+    max-height: 90%;
+    height: 100%;
+    max-width: 95%;
+    width: 100%;
+    transform: none;
+}
+.modal-content {
+    height: 100%;
+}
+.vehicle_box{
+padding: 12px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    width: 200px;
+    min-width: 150px;
+}
+#vehicle-options{
+width: 100%;
+    overflow: auto;
+    gap: 10px;
+    display: flex;
+    scrollbar-width: thin;
+}
+  @media (max-width: 768px) {
+     .container{
+          width: 100% !important;
             }
         }
-        .list-group-item {
-            position: relative;
-            display: block;
-            padding: var(--bs-list-group-item-padding-y) var(--bs-list-group-item-padding-x);
-            color: var(--bs-list-group-color);
-            text-decoration: none;
-            background-color: var(--bs-list-group-bg);
-            border:none;
-            border-bottom: 1px dashed #ccc;
-            font-size: 13px;
+     .list-group-item {
+        position: relative;
+        display: block;
+        padding: var(--bs-list-group-item-padding-y) var(--bs-list-group-item-padding-x);
+        color: var(--bs-list-group-color);
+        text-decoration: none;
+        background-color: var(--bs-list-group-bg);
+        border:none;
+        border-bottom: 1px dashed #ccc;
+        font-size: 13px;
         }
 @media (min-width: 768px) {
     .container, .container-md, .container-sm {
@@ -129,7 +153,7 @@
 
     <div class="header-container">
         <h3 class="header-title">get a ride in no time! </h3>
-        <p style="color: #e7c666;    max-width: 600px; ">Get ahead in your calculations endeavors with our prep work done. It’s time to design a form,<span style="color:white"> are you ready?<span></P>
+        <p style="color: #e7c666;    max-width: 600px; font-size:18px ">Get ahead in your cab booking journey with our prep work done.<span style="color:white"> Ready to book your ride?<span></P>
     </div>
 
     <div class="container py-5">
@@ -146,8 +170,8 @@
                         </button>
                       </div>
                       <div class="address_show p-2 border rounded bg-light">
-                          <p id="from" class="mb-1"><strong>From:</strong> </p>
-                          <p id="to" class="mb-0"><strong>To:</strong> </p>
+                          <p id="from" class="mb-1"><strong>From:</strong> _____ </p>
+                          <p id="to" class="mb-0"><strong>To:</strong> _____ </p>
                       </div>
                     </div>
 
@@ -227,11 +251,11 @@
                   <li  style="font-size: 15px;" class="list-group-item">
                       <strong>Pickup Location</strong>
                       <p id="pickup-location" class="text-muted small mb-0">
-                          From: <br>
-                          To: <br>
-                          Distance: Calculating...
+                          From: _____<br>
+                          To: _____<br>
                       </p>
-                      <span class="float-end">$0.00</span>
+                      <p id="distance">.......</p>
+                      <span  class="float-end">$0.00</span>
                   </li>
                    <li class="list-group-item d-flex justify-content-between">
                        <span>Date</span>
@@ -261,7 +285,6 @@
                <div class="mb-3">
                    <label style="font-size: smaller; font-weight: 600;" class="form-label">Payment Methods</label>
                    <div style="    padding: 10px;background-color: #ebebeb; border-radius: 7px;" class="d-flex align-items-center gap-2">
-
                        <img src="https://img.icons8.com/color/48/000000/mastercard-logo.png" alt="Mastercard" width="30">
                        <img src="https://img.icons8.com/color/48/000000/visa.png" alt="Visa" width="30">
                        <img src="https://img.icons8.com/color/48/000000/amex.png" alt="Amex" width="30">
@@ -276,8 +299,7 @@
                </div>
            </div>
        </div>
-
-        </div>
+     </div>
     </div>
     </div>
      <%@ include file="../utilities/footer.jsp" %>
@@ -286,9 +308,8 @@
      <div class="modal fade" id="mapModal" tabindex="-1" aria-labelledby="mapModalLabel" aria-hidden="true">
          <div class="modal-dialog modal-lg">
              <div class="modal-content">
-
-                 <div class="modal-body">
-                     <iframe src="map_view.jsp" width="100%" height="500px" style="border: none;"></iframe>
+                 <div style=" padding: 5px;" class="modal-body">
+                     <iframe style="height: 100%;border: none;" src="map_view.jsp" width="100%" height="500px" style="border: none;"></iframe>
                  </div>
              </div>
          </div>
@@ -297,38 +318,87 @@
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    // Set min attribute to today's date for the date picker
-    const dateInput = document.getElementById('date');
+document.addEventListener("DOMContentLoaded", function () {
+    fetchVehicles();
+});
+
+const dateInput = document.getElementById('date');
+const today = new Date().toISOString().split('T')[0];
+dateInput.min = today;
+const seatInput = document.getElementById('seatNumber');
+const vehicleOptions = document.getElementById('vehicle-options');
+let vehicles = [];
+function fetchVehicles() {
+    const dateInputValue = document.getElementById('date').value;
+    const timeInputValue = document.getElementById('time').value;
     const today = new Date().toISOString().split('T')[0];
-    dateInput.min = today;
+    let url = 'cabs';
 
-
-    // vehicle select
-        const vehicles = [
-            { name: "Sedan", seats: 4, image: "https://via.placeholder.com/100?text=Sedan" },
-            { name: "SUV", seats: 5, image: "https://via.placeholder.com/100?text=SUV" },
-            { name: "Minivan", seats: 7, image: "https://via.placeholder.com/100?text=Minivan" },
-            { name: "Bus", seats: 9, image: "https://via.placeholder.com/100?text=Bus" }
-        ];
-
-        const seatInput = document.getElementById('seatNumber');
-        const vehicleOptions = document.getElementById('vehicle-options');
-
-        function suggestVehicles() {
-            const seatCount = parseInt(seatInput.value, 10);
-            const suggested = vehicles.filter(v => v.seats >= seatCount);
-
-            vehicleOptions.innerHTML = suggested.map(vehicle => `
-                <label class="flex items-center gap-x-2 p-2 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-neutral-800">
-                    <input type="radio" name="vehicle" value="${vehicle.name}" class="form-radio">
-                    <img src="${vehicle.image}" alt="${vehicle.name}" class="w-16 h-16 object-cover">
-                    <span>${vehicle.name} - Seats: ${vehicle.seats}</span>
-                </label>
-            `).join('') || '<p class="text-gray-500">No vehicles available for the selected seat number.</p>';
+    if (dateInputValue && timeInputValue) {
+            const dateTime = dateInputValue + 'T' + timeInputValue + ':00';
+            if (dateInputValue < today) {
+                console.error('Cannot select past date');
+                return;
+            }
+            const encodedDateTime = encodeURIComponent(dateTime);
+            url += '?dateTime=' + encodedDateTime;
+            console.log('Fetching cabs for:', dateTime);
+        } else {
+            console.log('Fetching all available cabs');
+            if (dateInputValue && !timeInputValue) {
+                document.getElementById('time').value = '';
+            }
+            if (timeInputValue && !dateInputValue) {
+                document.getElementById('date').value = '';
+            }
         }
+    fetch(url)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            vehicles = data;
+            suggestVehicles();
+        })
+        .catch(error => console.error('Error fetching vehicles:', error));
+}
 
-        seatInput.addEventListener('input', suggestVehicles);
-        suggestVehicles();
+function suggestVehicles() {
+    const seatCount = parseInt(seatInput.value, 10) || 0;
+    const suggested = vehicles.filter(v => v.numberOfSeats >= seatCount);
+
+
+    const html = suggested.map(vehicle => {
+
+        const name = vehicle.name || 'Unknown';
+        const model = vehicle.model || 'N/A';
+        const seats = vehicle.numberOfSeats || 'N/A';
+        const driverName = vehicle.driver && vehicle.driver.name ? vehicle.driver.name : 'Not Assigned';
+        const imagePath = vehicle.imageUrl || '../resource/img/car.jpg';
+        const result = [
+            '<div class="vehicle_box">',
+            '<input type="radio" name="vehicle" value="' + name + '" class="form-radio text-teal-500 focus:ring-teal-500 h-5 w-5">',
+            '<img src="' + imagePath + '" alt="' + imagePath + '" class="w-16 h-16 object-cover rounded-lg border border-gray-100 dark:border-gray-600" >',
+            '<div class="flex-1">',
+            '<span class="block text-lg font-semibold text-gray-900 dark:text-white">' + name + ' - ' + model + '</span>',
+            '<span class="block text-sm text-gray-600 dark:text-gray-400">Seats: ' + seats + '</span>',
+            '<span class="block text-sm text-teal-600 font-medium dark:text-teal-400">Driver: ' + driverName + '</span>',
+            '</div>',
+            '</div>'
+        ].join('');
+
+        return result;
+    }).join('') || '<p class="text-gray-500 text-center py-2">No vehicles available for the selected seat number.</p>';
+    vehicleOptions.innerHTML = html;
+}
+seatInput.addEventListener('input', suggestVehicles);
+dateInput.addEventListener('change', fetchVehicles);
+document.getElementById('time').addEventListener('change', fetchVehicles);
+//document.getElementById('seatNumber').addEventListener('input', suggestVehicles);
+
 
         // map view
          window.addEventListener("message", function(event) {
@@ -338,18 +408,25 @@
                      "<strong>" + (event.data.type === "from" ? "From" : "To") + ":</strong> " + event.data.address;
 
                  setTimeout(() => {
+
                      let fromElement = document.getElementById("from");
                      let toElement = document.getElementById("to");
                      let fromText = fromElement ? fromElement.textContent.replace(/From:\s*/, "").trim() : "";
                      let toText = toElement ? toElement.textContent.replace(/To:\s*/, "").trim() : "";
+                     let distance = pickupLocationElement.getAttribute("data-distance") || "N/A"
                      console.log("Updated From Address:", fromText);
                      console.log("Updated To Address:", toText);
 
                      pickupLocationElement.innerHTML =
                          "From: " + fromText + "<br>" +
-                         "To: " + toText + "<br>" +
-                         "Distance: Calculating...";
+                         "To: " + toText + "<br>" ;
                  }, 100);
              }
          });
+         window.addEventListener("message", function(event) {
+             if (event.data && event.data.type === "distance") {
+                 document.getElementById("distance").innerText = "Distance: " + event.data.distance;
+             }
+         });
+
 </script>

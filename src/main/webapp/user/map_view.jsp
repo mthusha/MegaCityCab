@@ -4,27 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Taxi Booking Form</title>
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <script src="<%= request.getContextPath() %>/resource/js/polyfill.min.js"></script>
+       <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         body {
-            background-image: url('../resource/img/book-back.jpg');
+
             font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
-            height: 100vh;
+
             width: 100%;
         }
         .form-container {
+            height: 92.5%;
             background-color: #fff;
             padding: 2rem;
-            border-radius: 10px;
+            border-radius: 0 10px 10px 0;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-            width: 100%;
-            max-width: 400px;
+            /* width: 100%; */
+            /* max-width: 400px; */
             position: absolute;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
+            /* top: 20px; */
+            /* left: 50%; */
+            /* transform: translateX(-50%); */
             z-index: 1;
         }
         .form-container h2 {
@@ -41,21 +43,22 @@
             width: 100%;
             padding: 0.5rem;
             margin-top: 0.5rem;
-            border: 1px solid #ccc;
+            border: 1px solid #ffffff;
+            background-color: #ebebeb;
             border-radius: 5px;
-            font-size: 1rem;
+            font-size: 13px;
         }
         .form-container button {
-            margin-top: 1.5rem;
-            width: 100%;
-            padding: 0.75rem;
-            border: none;
-            border-radius: 5px;
-            background-color: #007BFF;
-            color: #fff;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: background-color 0.3s;
+               margin-top: 1.5rem;
+               width: 100%;
+               padding: 5px;
+               border: none;
+               border-radius: 5px;
+               background-color: #007BFF;
+               color: #fff;
+               font-size: 14px;
+               cursor: pointer;
+               transition: background-color 0.3s;
         }
         .form-container button:hover {
             background-color: #0056b3;
@@ -74,13 +77,48 @@
             font-size: 1.2rem;
             color: #333;
         }
+        .down_section{
+         display: flex;
+         gap: 5px;
+
+        }
+ @media (max-width: 900px), (max-device-width: 900px) {
+     .form-container {
+         height: 25%;
+         background-color: #fff;
+         padding: 2rem;
+         border-radius: 0 0 10px 10px;
+         box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+         width: 92.7%;
+         position: absolute;
+         z-index: 1;
+     }
+     .map_select_items {
+         display: flex;
+         justify-content: space-between;
+     }
+     #mapModal {
+         padding: 0 !important;
+     }
+     .down_section{
+              display: inline;
+              gap: 5px;
+
+   }
+   .form-container button {
+      width: fit;
+
+           }
+ }
+
     </style>
 </head>
 <body>
     <div id="map"></div>
     <div class="form-container">
         <h2>Taxi Booking Form</h2>
-        <form>
+        <form class="map_select_items">
+        <div class="up_section">
             <label for="from">From Location:</label>
             <input type="text" id="from" placeholder="Click on map to select start" required readonly>
 
@@ -88,9 +126,12 @@
             <input type="text" id="to" placeholder="Click on map to select destination" required readonly>
 
             <div id="distance"></div>
+        </div>
 
-            <button type="button" onclick="resetSelection()">Reset Selection</button>
-            <button type="submit">Book Taxi</button>
+        <div class="down_section">
+            <button type="button" onclick="resetSelection()"><i class="fa-solid fa-repeat"></i></button>
+            <button type="submit"><i class="fa-regular fa-circle-xmark"></i></button>
+        </div>
         </form>
     </div>
 
@@ -155,7 +196,8 @@
                 if (status === 'OK') {
                     directionsRenderer.setDirections(response);
                     const distance = response.routes[0].legs[0].distance.text;
-                    document.getElementById('distance').innerText = `Distance: ${distance}`;
+                    document.getElementById('distance').innerText = "Distance: " +distance;
+                    window.parent.postMessage({ type: "distance", distance: distance }, "*");
                 } else {
                     alert('Directions request failed due to ' + status);
                 }

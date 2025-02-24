@@ -1,5 +1,7 @@
 package com.megacitycab.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,6 +22,8 @@ public class Bill {
     private Double discountAmount;
     private LocalDateTime billingDate;
 
+    @JsonIgnore
+    @JsonManagedReference
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "booking_id")
     private Booking booking;

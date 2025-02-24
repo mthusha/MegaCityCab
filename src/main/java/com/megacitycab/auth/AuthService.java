@@ -1,7 +1,7 @@
 package com.megacitycab.auth;
 
 import com.megacitycab.config.JwtTokenProvider;
-import com.megacitycab.dao.UserDAO;
+import com.megacitycab.dao.UserDao;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.Cookie;
@@ -13,7 +13,7 @@ import java.io.IOException;
 
 @WebServlet("/login")
 public class AuthService  extends HttpServlet {
-    private final UserDAO userDAO = new UserDAO();
+    private final UserDao userDAO = UserDao.getInstance();
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.getRequestDispatcher("/login.jsp").forward(request, response);

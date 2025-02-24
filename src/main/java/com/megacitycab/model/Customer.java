@@ -1,12 +1,15 @@
 package com.megacitycab.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.megacitycab.auth.Users;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.awt.print.Book;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -26,8 +29,13 @@ public class Customer {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
+    @JsonManagedReference
+    @JsonIgnore
     private Users user;
 
-    @OneToOne(mappedBy = "customer",cascade = CascadeType.ALL)
-    private Booking booking;
+
+    @JsonIgnore
+    @JsonManagedReference
+    @OneToMany(mappedBy = "customer",cascade = CascadeType.ALL)
+    private List<Booking> bookings = new ArrayList<>();
 }

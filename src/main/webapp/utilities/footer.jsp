@@ -2,7 +2,6 @@
 <style>
  .footer {
            font-size: 12px;
-
            background-color: #ffffff;
            color: #f5c335;
            text-align: center;

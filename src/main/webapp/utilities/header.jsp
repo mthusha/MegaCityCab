@@ -21,7 +21,7 @@
         username = JwtTokenProvider.getInstance().getUsernameFromToken(token);
     }
 
-    UserDAO userDAO = new UserDAO();
+    UserDAO userDAO = UserDAO.getInstance();
     Users user = username != null ? userDAO.findByUsername(username) : null;
 %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
