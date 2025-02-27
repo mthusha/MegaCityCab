@@ -3,6 +3,8 @@ package com.megacitycab.config;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.Date;
 
@@ -48,5 +50,17 @@ public class JwtTokenProvider {
     public String getUsernameFromToken(String token) {
         DecodedJWT decodedJWT = JWT.require(algorithm).build().verify(token);
         return decodedJWT.getSubject();
+    }
+
+    public static String getTokenFromCookies(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if ("token".equals(cookie.getName())) {
+                    return cookie.getValue();
+                }
+            }
+        }
+        return null;
     }
 }

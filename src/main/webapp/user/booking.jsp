@@ -1,4 +1,3 @@
-
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
@@ -150,7 +149,6 @@ width: 100%;
 
 
     <div class="div-body">
-
     <div class="header-container">
         <h3 class="header-title">get a ride in no time! </h3>
         <p style="color: #e7c666;    max-width: 600px; font-size:18px ">Get ahead in your cab booking journey with our prep work done.<span style="color:white"> Ready to book your ride?<span></P>
@@ -290,7 +288,7 @@ width: 100%;
                        <img src="https://img.icons8.com/color/48/000000/amex.png" alt="Amex" width="30">
                    </div>
                </div>
-               <button class="btn btn-success w-100 mb-3">
+               <button id="booking" class="btn btn-success w-100 mb-3">
                    Book Now <i class="fas fa-external-link-alt"></i>
                </button>
                <div class="d-flex gap-2">
@@ -321,7 +319,62 @@ width: 100%;
 document.addEventListener("DOMContentLoaded", function () {
     fetchVehicles();
 });
+// booking
+document.getElementById('booking').addEventListener('click', handleBooking);
+function handleBooking(event) {
+    event.preventDefault();
 
+    const from = document.getElementById('from').textContent.replace('From: ', '').trim();
+    const to = document.getElementById('to').textContent.replace('To: ', '').trim();
+    const date = document.getElementById('date').value;
+    const time = document.getElementById('time').value;
+    const seatNumber = parseInt(document.getElementById('seatNumber').value, 10);
+    const selectedVehicle = document.querySelector('input[name="vehicle"]:checked');
+  //  const comment = document.getElementById('comment').value;
+    const distanceElement = document.getElementById('distance').textContent.replace('Distance: ', '').trim();
+    const bookingDateTime = date + "T" + time + ":00";
+    if (!from || !to || !date || !time || !seatNumber || !selectedVehicle) {
+        alert('Please fill all required fields and select a vehicle.');
+        return;
+    }
+
+    const bookingData = {
+        fromDestination: from,
+        toDestination: to,
+        numberOfPassengers: seatNumber,
+        cabId: selectedVehicle.dataset.cabId,
+        customerId: getCustomerId(),
+        distance: parseFloat(distanceElement) || 0,
+        bookingDateTime: bookingDateTime,
+    };
+
+    fetch('/Gradle___com_MegaCityCab___MegaCityCab_1_0_SNAPSHOT_war/user/booking', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(bookingData)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Booking failed');
+        }
+        return response.json();
+    })
+    .then(data => {
+        alert('Booking successful!');
+        window.location.reload();
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Failed to book the cab. Please try again.');
+    });
+}
+
+function getCustomerId() {
+    return 1;
+}
+//booking end
 const dateInput = document.getElementById('date');
 const today = new Date().toISOString().split('T')[0];
 dateInput.min = today;
@@ -377,10 +430,11 @@ function suggestVehicles() {
         const model = vehicle.model || 'N/A';
         const seats = vehicle.numberOfSeats || 'N/A';
         const driverName = vehicle.driver && vehicle.driver.name ? vehicle.driver.name : 'Not Assigned';
+        const cabId = vehicle.id;
         const imagePath = vehicle.imageUrl || '../resource/img/car.jpg';
         const result = [
             '<div class="vehicle_box">',
-            '<input type="radio" name="vehicle" value="' + name + '" class="form-radio text-teal-500 focus:ring-teal-500 h-5 w-5">',
+            '<input data-cab-id="' + cabId +'"  type="radio" name="vehicle" value="' + name + '" class="form-radio text-teal-500 focus:ring-teal-500 h-5 w-5">',
             '<img src="' + imagePath + '" alt="' + imagePath + '" class="w-16 h-16 object-cover rounded-lg border border-gray-100 dark:border-gray-600" >',
             '<div class="flex-1">',
             '<span class="block text-lg font-semibold text-gray-900 dark:text-white">' + name + ' - ' + model + '</span>',

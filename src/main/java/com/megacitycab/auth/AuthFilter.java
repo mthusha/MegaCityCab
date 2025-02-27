@@ -1,6 +1,6 @@
 package com.megacitycab.auth;
 import com.megacitycab.config.JwtTokenProvider;
-import com.megacitycab.dao.UserDao;
+import com.megacitycab.dao.UserDAO;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.Cookie;
@@ -12,7 +12,7 @@ import java.io.IOException;
 @WebFilter(urlPatterns = { "/admin/*", "/user/*"})
 public class AuthFilter implements Filter{
 
-    private final UserDao userDAO = UserDao.getInstance();
+    private final UserDAO userDAO = UserDAO.getInstance();
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain)
             throws IOException, ServletException {

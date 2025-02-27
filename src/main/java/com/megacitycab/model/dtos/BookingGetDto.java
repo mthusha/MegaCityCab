@@ -1,23 +1,20 @@
 package com.megacitycab.model.dtos;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
-
 @Getter
 @Setter
-public class BookingDto {
-
+public class BookingGetDto {
+    private Long id;
     private String toDestination;
     private String fromDestination;
     private Integer numberOfPassengers;
     private String bookingDateTime;
+    private String bookingStatus;
     private Double distance;
     private Double duration;
-    private Long customerId;
-    private Long cabId;
+    private String customerName;
+    private String cabModelName;
     private Long billId;
-
 }

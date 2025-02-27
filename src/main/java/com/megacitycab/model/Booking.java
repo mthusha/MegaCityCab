@@ -30,13 +30,13 @@ public class Booking {
 
     @JsonIgnore
     @JsonManagedReference
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     @JoinColumn(name = "cab_id")
     private Cabs cabs;
 
     @JsonIgnore
     @JsonManagedReference
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     @JoinColumn(name = "customer_id")
     private Customer customer;
 

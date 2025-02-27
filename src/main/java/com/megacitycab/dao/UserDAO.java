@@ -5,12 +5,12 @@ import com.megacitycab.utilities.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
-public class UserDao {
+public class UserDAO {
 
-    private static UserDao instance;
+    private static UserDAO instance;
 //    private static final SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
 
-    private UserDao() {}
+    private UserDAO() {}
 
     public Users findByUsername(String username) {
         try (Session session = HibernateUtil.getSessionFactory().openSession())  {
@@ -20,11 +20,11 @@ public class UserDao {
         }
     }
 
-    public static UserDao getInstance() {
+    public static UserDAO getInstance() {
         if (instance == null) {
-            synchronized (UserDao.class) {
+            synchronized (UserDAO.class) {
                 if (instance == null) {
-                    instance = new UserDao();
+                    instance = new UserDAO();
                 }
             }
         }

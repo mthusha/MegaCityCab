@@ -36,6 +36,6 @@ public class Customer {
 
     @JsonIgnore
     @JsonManagedReference
-    @OneToMany(mappedBy = "customer",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "customer")
     private List<Booking> bookings = new ArrayList<>();
 }
