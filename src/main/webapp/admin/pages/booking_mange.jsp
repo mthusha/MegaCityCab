@@ -27,11 +27,12 @@ body{
             color: #333;
         }
         table {
-            margin: 0 auto;
-            border-collapse: collapse;
-            background: white;
-            border-radius: 10px;
-            overflow: hidden;
+                width: 100%;
+                /* margin: 0 auto; */
+                border-collapse: collapse;
+                background: white;
+                border-radius: 10px;
+                overflow: hidden;
 
         }
         tbody{

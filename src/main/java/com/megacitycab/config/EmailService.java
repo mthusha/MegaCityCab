@@ -10,8 +10,8 @@ public class EmailService {
 
     private static final String SMTP_HOST = "smtp.gmail.com";
     private static final String SMTP_PORT = "587";
-    private static final String SMTP_USER = "your-email@gmail.com";
-    private static final String SMTP_PASSWORD = "your-app-password";
+    private static final String SMTP_USER = "thusha.micro@gmail.com";
+    private static final String SMTP_PASSWORD = "dyeardkdjduwirmu";
 
     public void sendBookingStatusEmail(String toEmail, Long bookingId, String status) {
         try {

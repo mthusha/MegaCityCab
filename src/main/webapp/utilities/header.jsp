@@ -37,7 +37,7 @@
                       <div id="profile_dropdown" class="dropdown-menu">
                            <ul>
                                <li><a href="${pageContext.request.contextPath}/profile.jsp">View</a></li>
-                               <li><a href="${pageContext.request.contextPath}/logout">Logout</a></li>
+                              <li><a href="${pageContext.request.contextPath}/logout">Logout</a></li>
                            </ul>
                        </div>
                 <a href ="#"><span id="profile_options"><i class="fa-solid fa-chevron-down"></i></span></a>

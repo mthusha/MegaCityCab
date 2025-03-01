@@ -33,7 +33,7 @@
 
         h1 {
             text-align: center;
-            color: #1877f2;
+            color: #f2d318;
             margin-bottom: 1.5rem;
         }
 
@@ -56,21 +56,23 @@
         }
 
         button {
-            width: 100%;
-            padding: 0.8rem;
-            background-color: #1877f2;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            font-size: 1rem;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 1rem;
-        }
+             border: 1px solid !important;
+             width: 100%;
+             padding: 0.8rem;
+             background-color: transparent;
+             color: #f2d318;
+             border: none;
+             border-radius: 4px;
+             font-size: 1rem;
+             font-weight: bold;
+             cursor: pointer;
+             margin-top: 1rem;
+                }
 
         button:hover {
-            background-color: #166fe5;
-        }
+             background-color: #f2d318;
+              color: white;
+           }
 
         .register-link {
             text-align: center;
@@ -78,7 +80,7 @@
         }
 
         a {
-            color: #1877f2;
+            color: #f2d318;
             text-decoration: none;
         }
 
@@ -91,6 +93,14 @@
             background: url('your-image.jpg') no-repeat center center;
             background-size: cover;
         }
+         @media (max-width: 768px), (max-device-width: 768px) {
+             .right-panel {
+                  display:none
+                   }
+             .left-panel {
+                  width: 100%;
+                  }
+           }
     </style>
 </head>
 <body>
@@ -121,6 +131,5 @@
         </div>
         <div class="right-panel"></div>
     </div>
-
 </body>
 </html>

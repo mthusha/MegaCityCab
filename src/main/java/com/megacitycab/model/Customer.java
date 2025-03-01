@@ -24,6 +24,7 @@ public class Customer {
     private String address;
     private String phone;
     private String email;
+    private String nic;
 
 
 

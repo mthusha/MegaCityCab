@@ -5,7 +5,7 @@ import com.megacitycab.config.EmailService;
 import com.megacitycab.config.JwtTokenProvider;
 import com.megacitycab.dao.BookingDao;
 import com.megacitycab.dao.CabDao;
-import com.megacitycab.dao.CustomerDoa;
+import com.megacitycab.dao.CustomerDao;
 import com.megacitycab.enums.BookingStatus;
 import com.megacitycab.enums.CabStatus;
 import com.megacitycab.model.Booking;
@@ -30,9 +30,8 @@ import java.util.stream.Collectors;
 public class BookingServlet extends HttpServlet implements BookingService {
     private final BookingDao bookingDAO = BookingDao.getInstance();
     private final CabDao cabDAO = CabDao.getInstance();
-    private final CustomerDoa customerDoa = CustomerDoa.getInstance();
+    private final CustomerDao customerDao = CustomerDao.getInstance();
     private final EmailService emailService = new EmailService();
-    private final CustomerDoa customerDao = CustomerDoa.getInstance();
     private static final ExecutorService executor = Executors.newFixedThreadPool(5);
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -89,9 +88,9 @@ public class BookingServlet extends HttpServlet implements BookingService {
         bookingDAO.updateStatus(bookingId, status);
         // email send
         String customerEmail = customerDao.getCustomerEmailByBookingId(bookingId);
-        if (customerEmail != null) {
-            executor.submit(() -> emailService.sendBookingStatusEmail(customerEmail, bookingId, status));
-        }
+//        if (customerEmail != null) {
+//            executor.submit(() -> emailService.sendBookingStatusEmail(customerEmail, bookingId, status));
+//        }
         response.getWriter().write("Success");
     }
 
@@ -154,7 +153,7 @@ public class BookingServlet extends HttpServlet implements BookingService {
             throw new IllegalStateException("Invalid token");
         }
 
-        Customer customer = customerDoa.findCustomerByUsername(username);
+        Customer customer = customerDao.findCustomerByUsername(username);
         if (customer == null) {
             throw new IllegalStateException("Customer with username " + username + " not found");
         }
