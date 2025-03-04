@@ -15,7 +15,7 @@
     .content {
         margin-left: 200px;
         min-height: 86vh;
-        padding: 20px;
+        padding: 8px;
         box-sizing: border-box;
         background-color: #f0f0f0;
         border-radius: 10px;

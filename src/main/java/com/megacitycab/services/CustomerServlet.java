@@ -52,7 +52,8 @@ public class CustomerServlet extends HttpServlet implements CustomerService {
         }
     }
 
-    private void createCustomer(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    @Override
+    public void createCustomer(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try {
             CustomerDto customerDto = parseCustomerRequest(request);
             Customer customer = processCustomer(customerDto);
@@ -78,14 +79,15 @@ public class CustomerServlet extends HttpServlet implements CustomerService {
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error creating customer");
         }
     }
-
-    private void getAllCustomers(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    @Override
+    public void getAllCustomers(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<Customer> customers = customerDao.findAll();
         List<CustomerDto> customerDtoList = customers.stream().map(this::convertToDto).collect(Collectors.toList());
         request.setAttribute("customers", customerDtoList);
         request.getRequestDispatcher("/admin/pages/customer_manage.jsp").forward(request, response);
     }
-    private void deleteCustomer(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    @Override
+    public void deleteCustomer(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String idParam = request.getParameter("id");
         if (idParam != null) {
             try {

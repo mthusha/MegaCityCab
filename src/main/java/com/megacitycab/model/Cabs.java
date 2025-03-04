@@ -26,6 +26,8 @@ public class Cabs {
 
     @Enumerated(EnumType.STRING)
     private CabStatus status;
+    @Column(name = "image_path")
+    private String imagePath;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "driver_id")

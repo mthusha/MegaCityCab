@@ -72,7 +72,7 @@ iframe {
         <li><a href="pages/dashboard.jsp" target="contentFrame" class="active"><i class="fa-solid fa-chart-line"></i> Dashboard</a></li>
         <li><a href="/Gradle___com_MegaCityCab___MegaCityCab_1_0_SNAPSHOT_war/admin/booking" target="contentFrame"><i class="fa-regular fa-rectangle-list"></i> Bookings</a></li>
         <li><a href="/Gradle___com_MegaCityCab___MegaCityCab_1_0_SNAPSHOT_war/admin/customers" target="contentFrame"><i class="fas fa-user"></i>Customer</a></li>
-        <li><a href="pages/settings.jsp" target="contentFrame"><i class="fas fa-car"></i> Caps</a></li>
+        <li><a href="/Gradle___com_MegaCityCab___MegaCityCab_1_0_SNAPSHOT_war/admin/cabs" target="contentFrame"><i class="fas fa-car"></i> Caps</a></li>
         <li><a href="pages/dashboard.jsp" target="contentFrame"><i class="fas fa-users"></i> Driver</a></li>
         <li><a href="pages/user.jsp" target="contentFrame"><i class="fas fa-file-invoice-dollar"></i> Bills</a></li>
     </ul>

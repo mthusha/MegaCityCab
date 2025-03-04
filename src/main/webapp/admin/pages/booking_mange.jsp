@@ -205,19 +205,19 @@ function changeDropdownColor(selectElement) {
 
     switch (status) {
         case "PENDING":
-            selectElement.style.backgroundColor = "#FFD700";
+            selectElement.style.backgroundColor = "rgb(223 243 255)";
             break;
         case "CONFIRMED":
-            selectElement.style.backgroundColor = "#28a745";
-            selectElement.style.color = "#fff";
+            selectElement.style.backgroundColor = "rgb(211 255 221)";
+            selectElement.style.color = "rgb(0 0 0)";
             break;
         case "CANCELLED":
-            selectElement.style.backgroundColor = "#dc3545";
-            selectElement.style.color = "#fff";
+            selectElement.style.backgroundColor = "rgb(255 185 185)";
+            selectElement.style.color = "rgb(0 0 0)";
             break;
         default:
             selectElement.style.backgroundColor = "#cce6ff";
-            selectElement.style.color = "#000";
+            selectElement.style.color = "rgb(0 0 0)";
     }
 }
 

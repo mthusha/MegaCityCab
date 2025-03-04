@@ -431,7 +431,7 @@ function suggestVehicles() {
         const seats = vehicle.numberOfSeats || 'N/A';
         const driverName = vehicle.driver && vehicle.driver.name ? vehicle.driver.name : 'Not Assigned';
         const cabId = vehicle.id;
-        const imagePath = vehicle.imageUrl || '../resource/img/car.jpg';
+        const imagePath = vehicle.imagePath || '../resource/img/taxiBg.jpg';
         const result = [
             '<div class="vehicle_box">',
             '<input data-cab-id="' + cabId +'"  type="radio" name="vehicle" value="' + name + '" class="form-radio text-teal-500 focus:ring-teal-500 h-5 w-5">',
