@@ -468,8 +468,7 @@ document.getElementById('time').addEventListener('change', fetchVehicles);
                      let fromText = fromElement ? fromElement.textContent.replace(/From:\s*/, "").trim() : "";
                      let toText = toElement ? toElement.textContent.replace(/To:\s*/, "").trim() : "";
                      let distance = pickupLocationElement.getAttribute("data-distance") || "N/A"
-                     console.log("Updated From Address:", fromText);
-                     console.log("Updated To Address:", toText);
+
 
                      pickupLocationElement.innerHTML =
                          "From: " + fromText + "<br>" +

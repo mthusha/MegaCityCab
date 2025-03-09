@@ -92,4 +92,7 @@ public class BookingDao {
         return instance;
     }
 
+    public List<Booking> getAllBookings() {
+        return findAll();
+    }
 }

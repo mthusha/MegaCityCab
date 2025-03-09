@@ -28,13 +28,6 @@ public class HibernateUtil {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
 
-//        Customer customer = new Customer();
-//        customer.setName("John Doe");
-//        customer.setAddress("123 Main St");
-//        customer.setPhone("1234567890");
-//        customer.setEmail("john@example.com");
-
-//        session.save(customer);
         transaction.commit();
 
         session.close();

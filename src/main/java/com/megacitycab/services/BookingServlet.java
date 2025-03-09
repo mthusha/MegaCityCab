@@ -1,6 +1,7 @@
 package com.megacitycab.services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.kafka.common.serialization.StringSerializer;
 import com.megacitycab.config.EmailService;
 import com.megacitycab.config.JwtTokenProvider;
 import com.megacitycab.dao.BookingDao;
@@ -13,15 +14,21 @@ import com.megacitycab.model.Cabs;
 import com.megacitycab.model.Customer;
 import com.megacitycab.model.dtos.BookingDto;
 import com.megacitycab.model.dtos.BookingGetDto;
+import com.megacitycab.notification.BookingNotification;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.apache.kafka.clients.producer.KafkaProducer;
+import org.apache.kafka.clients.producer.ProducerConfig;
+import org.apache.kafka.clients.producer.ProducerRecord;
+
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
@@ -33,6 +40,8 @@ public class BookingServlet extends HttpServlet implements BookingService {
     private final CustomerDao customerDao = CustomerDao.getInstance();
     private final EmailService emailService = new EmailService();
     private static final ExecutorService executor = Executors.newFixedThreadPool(5);
+    private KafkaProducer<String, String> kafkaProducer;
+    private final ObjectMapper objectMapper = new ObjectMapper();
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String path = request.getServletPath();
@@ -46,7 +55,14 @@ public class BookingServlet extends HttpServlet implements BookingService {
             response.sendError(HttpServletResponse.SC_FORBIDDEN, "POST not allowed on this path.");
         }
     }
-
+    @Override
+    public void init() throws ServletException {
+        Properties props = new Properties();
+        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
+        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
+        kafkaProducer = new KafkaProducer<>(props);
+    }
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String path = request.getServletPath();
@@ -65,6 +81,25 @@ public class BookingServlet extends HttpServlet implements BookingService {
             BookingDto bookingDto = parseBookingRequest(request);
             Booking booking = processBooking(bookingDto, request);
             bookingDAO.save(booking);
+            BookingNotification notification = new BookingNotification(
+                    "BOOKING_CREATED",
+                    booking.getId(),
+                    booking.getCabs().getName(),
+                    booking.getCustomer().getName(),
+                    "Date Time Not Available"
+            );
+
+            // Send to Kafka topic
+            String jsonNotification = objectMapper.writeValueAsString(notification);
+            ProducerRecord<String, String> record = new ProducerRecord<>("booking-events", jsonNotification);
+            kafkaProducer.send(record, (metadata, exception) -> {
+                if (exception != null) {
+                    System.err.println("Error sending to Kafka: " + exception.getMessage());
+                } else {
+                    System.out.println("Message sent to Kafka: " + metadata);
+                }
+            });
+
             response.setStatus(HttpServletResponse.SC_CREATED);
         } catch (IllegalStateException e) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
@@ -87,7 +122,7 @@ public class BookingServlet extends HttpServlet implements BookingService {
         String status = request.getParameter("status");
         bookingDAO.updateStatus(bookingId, status);
         // email send
-        String customerEmail = customerDao.getCustomerEmailByBookingId(bookingId);
+//        String customerEmail = customerDao.getCustomerEmailByBookingId(bookingId);
 //        if (customerEmail != null) {
 //            executor.submit(() -> emailService.sendBookingStatusEmail(customerEmail, bookingId, status));
 //        }

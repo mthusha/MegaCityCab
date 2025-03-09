@@ -93,7 +93,13 @@ body{
     </style>
     <script>
     const baseUrl = window.location.origin + window.location.pathname.split("/admin")[0];
+
             function updateStatus(bookingId, newStatus) {
+            const socket = new WebSocket("ws://localhost:8080/websocket/bookings");
+            socket.onmessage = function(event) {
+                console.log("New Notification: ", event.data);
+                alert("New Booking Notification: " + event.data);
+            };
 
                 fetch(baseUrl + "/admin/booking-status", {
                     method: "POST",

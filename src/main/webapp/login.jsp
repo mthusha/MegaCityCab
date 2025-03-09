@@ -90,7 +90,7 @@
 
         .right-panel {
             width: 50%;
-            background: url('your-image.jpg') no-repeat center center;
+            background: url('resource/img/log.jpg') no-repeat center center;
             background-size: cover;
         }
          @media (max-width: 768px), (max-device-width: 768px) {
