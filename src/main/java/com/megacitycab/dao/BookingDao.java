@@ -83,7 +83,7 @@ public class BookingDao {
 
     public static BookingDao getInstance() {
         if (instance == null) {
-            synchronized (UserDAO.class) {
+            synchronized (BookingDao.class) {
                 if (instance == null) {
                     instance = new BookingDao();
                 }

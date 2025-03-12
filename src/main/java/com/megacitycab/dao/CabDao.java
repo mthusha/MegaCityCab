@@ -4,6 +4,7 @@ import com.megacitycab.enums.CabStatus;
 import com.megacitycab.model.Booking;
 import com.megacitycab.model.Cabs;
 import com.megacitycab.model.Customer;
+import com.megacitycab.model.Drivers;
 import com.megacitycab.utilities.HibernateUtil;
 import jakarta.transaction.Transactional;
 import org.hibernate.Session;
@@ -116,6 +117,52 @@ public class CabDao {
         }
     }
 
+    public void assignDriver(Long cabId, Long driverId) {
+        Transaction transaction = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+            Cabs cab = session.get(Cabs.class, cabId);
+            Drivers driver = session.get(Drivers.class, driverId);
+
+            if (cab == null) throw new RuntimeException("Cab not found");
+            if (driver == null) throw new RuntimeException("Driver not found");
+            if (cab.getDriver() != null && cab.getDriver().getId() != driverId) {
+                throw new RuntimeException("Cab is already assigned to another driver");
+            }
+
+            if (driver.getCabs() != null) {
+                driver.getCabs().setDriver(null);
+                session.update(driver.getCabs());
+            }
+
+            cab.setDriver(driver);
+            driver.setCabs(cab);
+            session.update(cab);
+            session.update(driver);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) transaction.rollback();
+            throw new RuntimeException("Failed to assign driver to cab: " + e.getMessage(), e);
+        }
+    }
+    public void removeDriver(Long driverId) {
+        Transaction transaction = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+            Drivers driver = session.get(Drivers.class, driverId);
+            if (driver != null && driver.getCabs() != null) {
+                Cabs cab = driver.getCabs();
+                cab.setDriver(null);
+                driver.setCabs(null);
+                session.update(cab);
+                session.update(driver);
+            }
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) transaction.rollback();
+            throw new RuntimeException("Failed to remove driver from cab", e);
+        }
+    }
 
     public static CabDao getInstance() {
         if (instance == null) {

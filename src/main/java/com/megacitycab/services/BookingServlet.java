@@ -55,14 +55,14 @@ public class BookingServlet extends HttpServlet implements BookingService {
             response.sendError(HttpServletResponse.SC_FORBIDDEN, "POST not allowed on this path.");
         }
     }
-    @Override
-    public void init() throws ServletException {
-        Properties props = new Properties();
-        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
-        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
-        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
-        kafkaProducer = new KafkaProducer<>(props);
-    }
+//    @Override
+//    public void init() throws ServletException {
+//        Properties props = new Properties();
+//        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+//        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
+//        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
+//        kafkaProducer = new KafkaProducer<>(props);
+//    }
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String path = request.getServletPath();
@@ -195,7 +195,6 @@ public class BookingServlet extends HttpServlet implements BookingService {
 
         double duration = bookingDto.getDistance() * cab.getTIME_PER_KM();
         double fareAmount = bookingDto.getDistance() * cab.getFARE_PER_KM();
-
         Booking booking = new Booking();
         booking.setToDestination(bookingDto.getToDestination());
         booking.setFromDestination(bookingDto.getFromDestination());

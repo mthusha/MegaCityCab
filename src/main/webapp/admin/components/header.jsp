@@ -75,6 +75,6 @@ display:none;
     <h1></h1>
     <div class="profile-section">
             <img src="Gradle___com_MegaCityCab___MegaCityCab_1_0_SNAPSHOT_war/../../resource/img/min.jpg" alt="Profile Picture" class="profile-pic">
-            <span class="username">John Doe</span>
+            <span class="username">Tuzam</span>
         </div>
 </div>

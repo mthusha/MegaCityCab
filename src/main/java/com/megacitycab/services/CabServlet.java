@@ -129,6 +129,7 @@ public class CabServlet extends HttpServlet implements CabService {
         // email send
         response.getWriter().write("Success");
     }
+
     @Override
     public void getAllCabs(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<Cabs> cabDAOAll = cabDAO.findAll();
