@@ -33,6 +33,15 @@ public class CabDao {
             throw new RuntimeException("Failed to save Customer" + cabs.toString(), e);
         }
     }
+    public Cabs findByDriverId(Long driverId) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            return session.createQuery("FROM Cabs c WHERE c.driver.id = :driverId", Cabs.class)
+                    .setParameter("driverId", driverId)
+                    .uniqueResult();
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to find cab by driver id: " + driverId, e);
+        }
+    }
 
     public List<Cabs> getAvailableCabs(LocalDateTime dateTime) {
         List<Cabs> cabs = null;

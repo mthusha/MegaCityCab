@@ -122,10 +122,10 @@ public class BookingServlet extends HttpServlet implements BookingService {
         String status = request.getParameter("status");
         bookingDAO.updateStatus(bookingId, status);
         // email send
-//        String customerEmail = customerDao.getCustomerEmailByBookingId(bookingId);
-//        if (customerEmail != null) {
-//            executor.submit(() -> emailService.sendBookingStatusEmail(customerEmail, bookingId, status));
-//        }
+        String customerEmail = customerDao.getCustomerEmailByBookingId(bookingId);
+        if (customerEmail != null) {
+            executor.submit(() -> emailService.sendBookingStatusEmail(customerEmail, bookingId, status));
+        }
         response.getWriter().write("Success");
     }
 
@@ -193,8 +193,8 @@ public class BookingServlet extends HttpServlet implements BookingService {
             throw new IllegalStateException("Customer with username " + username + " not found");
         }
 
-        double duration = bookingDto.getDistance() * cab.getTIME_PER_KM();
-        double fareAmount = bookingDto.getDistance() * cab.getFARE_PER_KM();
+        double duration = bookingDto.getDistance() * cab.getTimePerKm();
+        double fareAmount = bookingDto.getDistance() * cab.getFarePerKm();
         Booking booking = new Booking();
         booking.setToDestination(bookingDto.getToDestination());
         booking.setFromDestination(bookingDto.getFromDestination());

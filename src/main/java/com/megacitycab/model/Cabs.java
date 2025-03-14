@@ -21,8 +21,8 @@ public class Cabs {
     private String name;
     private String model;
     private Integer numberOfSeats;
-    private Double FARE_PER_KM;
-    private Double TIME_PER_KM;
+    private Double farePerKm;
+    private Double timePerKm;
 
     @Enumerated(EnumType.STRING)
     private CabStatus status;
@@ -40,4 +40,10 @@ public class Cabs {
     private List<Booking> bookings = new ArrayList<>();
 
 
+    public Cabs(String toyota, String camry, int i, double v, double v1, CabStatus cabStatus, Object o, String s) {
+    }
+
+    public Cabs() {
+
+    }
 }

@@ -80,6 +80,15 @@ public class BookingDao {
         }
     }
 
+    public List<Booking> findByCabId(Long cabId) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            return session.createQuery("FROM Booking b WHERE b.cabs.id = :cabId", Booking.class)
+                    .setParameter("cabId", cabId)
+                    .list();
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to find bookings by cab id: " + cabId, e);
+        }
+    }
 
     public static BookingDao getInstance() {
         if (instance == null) {

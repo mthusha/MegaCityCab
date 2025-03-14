@@ -82,8 +82,8 @@ public class CabServlet extends HttpServlet implements CabService {
             cab.setName(request.getParameter("name"));
             cab.setModel(request.getParameter("model"));
             cab.setNumberOfSeats(Integer.parseInt(request.getParameter("numberOfSeats")));
-            cab.setFARE_PER_KM(Double.parseDouble(request.getParameter("farePerKm")));
-            cab.setTIME_PER_KM(Double.parseDouble(request.getParameter("timePerKm")));
+            cab.setFarePerKm(Double.parseDouble(request.getParameter("farePerKm")));
+            cab.setTimePerKm(Double.parseDouble(request.getParameter("timePerKm")));
             cab.setStatus(CabStatus.valueOf(request.getParameter("status")));
 
             // Handle image upload
@@ -162,8 +162,8 @@ public class CabServlet extends HttpServlet implements CabService {
         dto.setNumberOfSeats(cabs.getNumberOfSeats());
         dto.setStatus(cabs.getStatus().toString());
         dto.setDriver(cabs.getDriver() != null ? cabs.getDriver().getName() : "Not driver allocated");
-        dto.setFarePerKm(cabs.getFARE_PER_KM());
-        dto.setTimePerKm(cabs.getTIME_PER_KM());
+        dto.setFarePerKm(cabs.getFarePerKm());
+        dto.setTimePerKm(cabs.getTimePerKm());
         dto.setImagePath(cabs.getImagePath());
         return dto;
     }

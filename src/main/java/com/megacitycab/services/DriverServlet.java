@@ -2,10 +2,12 @@ package com.megacitycab.services;
 
 
 import com.megacitycab.auth.Users;
+import com.megacitycab.dao.BookingDao;
 import com.megacitycab.dao.CabDao;
 import com.megacitycab.dao.DriverDao;
 import com.megacitycab.dao.UserDAO;
 import com.megacitycab.enums.DriverStatus;
+import com.megacitycab.model.Booking;
 import com.megacitycab.model.Cabs;
 import com.megacitycab.model.Drivers;
 import com.megacitycab.model.dtos.CabsDto;
@@ -17,6 +19,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,12 +27,14 @@ import java.util.stream.Collectors;
         "/admin/drivers",
         "/admin/drivers/delete",
         "/admin/drivers/update",
-        "/admin/cabs/assign-driver"
+        "/admin/cabs/assign-driver",
+        "/driver/dashboard"
 })
 public class DriverServlet extends HttpServlet {
     private final DriverDao driverDao = DriverDao.getInstance();
     private final CabDao cabDao = CabDao.getInstance();
     private final UserDAO userDao = UserDAO.getInstance();
+    private final BookingDao bookingDao = BookingDao.getInstance();
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String path = request.getServletPath();
@@ -37,10 +42,13 @@ public class DriverServlet extends HttpServlet {
             getAllDrivers(request, response);
 
         }
+        else if ("/driver/dashboard".equals(path)) {
+            driverDashboard(request, response);
+        }
 
     }
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String path = request.getServletPath();
         if ("/admin/cabs/assign-driver".equals(path)) {
@@ -59,6 +67,31 @@ public class DriverServlet extends HttpServlet {
         }
     }
 
+    public void driverDashboard(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        Long driverId = (Long) request.getSession().getAttribute("userId");
+
+        if (driverId == null) {
+            response.sendRedirect("/login");
+            return;
+        }
+
+        Cabs allocatedCab = cabDao.findByDriverId(driverId);
+        request.setAttribute("allocatedCab", allocatedCab);
+
+        if (allocatedCab != null) {
+            List<Booking> allBookings = bookingDao.findByCabId(allocatedCab.getId());
+            LocalDateTime now = LocalDateTime.now();
+            List<Booking> futureBookings = allBookings.stream()
+                    .filter(booking -> booking.getBookingDateTime().isAfter(now))
+                    .collect(Collectors.toList());
+
+            request.setAttribute("futureBookings", futureBookings);
+        }
+
+        request.getRequestDispatcher("/driver/driver.jsp").forward(request, response);
+    }
+
+
 //    @Override
     public void getAllDrivers(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<Drivers> driversList = driverDao.findAll();
@@ -67,7 +100,7 @@ public class DriverServlet extends HttpServlet {
         request.getRequestDispatcher("/admin/pages/driver_manage.jsp").forward(request, response);
     }
     @Override
-    protected void doDelete(HttpServletRequest request, HttpServletResponse response)
+    public void doDelete(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Long driverId = Long.parseLong(request.getParameter("id"));
         driverDao.delete(driverId);
@@ -75,7 +108,7 @@ public class DriverServlet extends HttpServlet {
     }
 
 
-    private void assignDriver(HttpServletRequest request, HttpServletResponse response)
+    public void assignDriver(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
         try {
             Long cabId = Long.parseLong(request.getParameter("cabId"));
@@ -102,7 +135,7 @@ public class DriverServlet extends HttpServlet {
         }
     }
 
-    private void creatUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void creatUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Drivers driver = new Drivers();
         Users user = new Users();
 
